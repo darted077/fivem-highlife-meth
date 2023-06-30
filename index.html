@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+        <link rel="stylesheet" type="text/css" href="assets/styles.css">
+        <link href="https://fonts.cdnfonts.com/css/chalet" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title> Let's cook, Jesse </title>
+    </head>
+    <body>
+        <div class="background-image"></div>
+
+        <div class="blackout-area top-left" style="display: none">
+            <p><span class="text white-text">Press</span> <span class="text-key">E</span> <span class="text white-text">to start cooking</span></p>
+        </div>
+
+        <div class="blackout-area top-left">
+            <p><span class="text yellow-text">Quality</span> <span class="text white-text">based on temp control</span></p>
+            <p><span class="text yellow-text">Quantity</span> <span class="text white-text">differs by ingredients</span></p>
+            <p><span class="text yellow-text">Recipes</span> <span class="text white-text">differ based on quality</span></p>
+            <p><span class="text yellow-text">Recipes</span> <span class="text white-text">change each month</span></p>
+            <p><div class="symbol-key">↑</div> <span style="margin-right: -2em" class="text white-text">Increase the temperature (<span id="percentage">35</span>%)</span></p>
+            <p><div class="symbol-key">↓</div> <span style="margin-right: 2.5em" class="text white-text">Decrease the temperature</span></p>
+            <p><div class="text-key">A</div> <span class="text white-text">Add more lithium (<span id="lithium">5</span>)</span></p>
+            <p><div class="text-key">S</div> <span class="text white-text">Add more acetone (<span id="acetone">4</span>)</span></p>
+            <p><div class="text-key">D</div> <span class="text white-text">Add more sulfuric acid (<span id="sulfuric">6</span>)</span></p>
+        </div>
+
+        <div class="response-text" style="display: none">
+            <p class="text white-text">Add items to start cooking</p>
+        </div>
+
+        <div class="response-text">
+            <p class="text orange-text">The batch is not responding well to the heat</p>
+        </div>
+
+        <div class="response-text" style="display: none">
+            <p class="text green-text">The batch is responding well to the heat</p>
+        </div>
+
+        <div class="blackout-container">
+            <div class="blackout-area bottom-right">
+                <table><tr><td class="text white-text table-cell">Cook Quality</td><td class="text orange-text table-cell">Terrible</td></tr></table>
+            </div>
+            <div class="blackout-area bottom-right">
+                <table><tr><td class="text white-text table-cell">Cook Progress</td><td class="text orange-text table-cell"><div class="progress-bar">
+                    <div class="progress"></div>
+                </div></td></tr></table>
+            </div>
+        </div>
+
+        <script src="assets/meth.js"></script>
+    </body>
+</html>
