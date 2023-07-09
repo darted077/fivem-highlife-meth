@@ -119,8 +119,8 @@ p {
 }
 
 .progress-bar {
-    width: 6em; /* Set the desired width */
-    height: 0.5em; /* Set the desired height */
+    width: 6em;
+    height: 0.5em;
     background-color: #601856;
     overflow: hidden;
     position: absolute;
@@ -132,5 +132,5 @@ p {
 .progress {
     height: 100%;
     background-color: #c22faf;
-    width: 0.2em;
+    width: 0.0em;
 }
