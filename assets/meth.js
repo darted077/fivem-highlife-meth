@@ -285,6 +285,7 @@ function evaluateQuality() {
 }
 
 function printResult() {
+    hideEverything();
     var blow = document.getElementById('blow-panel');
     var shitty = document.getElementById('shitty-result');
     var white = document.getElementById('white-result');
