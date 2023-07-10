@@ -15,7 +15,7 @@ var whiteThreshold = 0.65;
 var cloudyThreshold = 0.8;
 var greenTime = 0;
 var currentState = 0; //-1 blow, 0 terrible, 1 white, 2 cloudy
-var textUpdateDelay = getRandomNumber(400, 400);
+var textUpdateDelay = getRandomNumber(150, 400);
 
 var hasHonked = false;
 var isCooking = false;
