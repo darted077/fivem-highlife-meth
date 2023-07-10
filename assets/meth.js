@@ -6,9 +6,16 @@ var currentSulfuric = 0;
 var totalCookTime = getRandomNumber(135, 145);
 var firstIntervalLength = getRandomNumber(5, 15);
 var elapsedCookTime = 0;
-var desiredTemperature = 20;
+var desiredTemperature = 0;
+var earliestWhiteTime = 30;
+var earliestCloudyTime = 120;
+var safeTime = 60;
+var blowThreshold = 0.5;
+var whiteThreshold = 0.65;
+var cloudyThreshold = 0.8;
 var greenTime = 0;
-var redTime = 0;
+var currentState = 0; //-1 blow, 0 terrible, 1 white, 2 cloudy
+var textUpdateDelay = getRandomNumber(400, 400);
 
 var hasHonked = false;
 var isCooking = false;
@@ -79,10 +86,13 @@ function handleCookStartInput(event) {
         var startPanel = document.getElementById('start-panel');
         var controlPanel = document.getElementById('control-panel');
         var progress = document.getElementById('progress');
+        var noItems = document.getElementById('no-items-text');
 
         startPanel.hidden = true;
         controlPanel.hidden = false;
         progress.hidden = false;
+        noItems.hidden = false;
+        evaluateQuality();
     }
 }
 
@@ -126,16 +136,9 @@ function evaluateTemperature() {
         return false;
     }
 
-    var notRespondingElement = document.getElementById('not-responding-text');
-    var respondingElement = document.getElementById('responding-text');
-
     if (currentPercentage === desiredTemperature || currentPercentage === desiredTemperature+5) {
-        notRespondingElement.hidden = true;
-        respondingElement.hidden = false;
         return true;
     } else {
-        notRespondingElement.hidden = false;
-        respondingElement.hidden = true;
         return false;
     }
 }
@@ -169,11 +172,22 @@ function startTimer() {
     var intervalId = setInterval(function() {
         elapsedCookTime += 0.05;
 
-        if(evaluateTemperature()) {
+        var isGreen = evaluateTemperature();
+        if(isGreen) {
             greenTime += 0.05;
-        } else {
-            redTime += 0.05;
         }
+
+        setTimeout(function() {
+            var notRespondingElement = document.getElementById('not-responding-text');
+            var respondingElement = document.getElementById('responding-text');
+            if(isGreen) {
+                notRespondingElement.hidden = true;
+                respondingElement.hidden = false;
+            } else {
+                notRespondingElement.hidden = false;
+                respondingElement.hidden = true;
+            }
+        }, textUpdateDelay);
 
         if(intervalIndex === 0 && elapsedCookTime >= firstIntervalLength) {
             intervalIndex++;
@@ -188,10 +202,12 @@ function startTimer() {
         }
 
         updateProgressBar();
+        evaluateQuality();
 
         if (elapsedCookTime >= totalCookTime) {
             clearInterval(intervalId);
-            hideEverything()
+            hideEverything();
+            printResult();
         }
 
         timerStarted = true;
@@ -217,4 +233,79 @@ function hideEverything() {
     startPanel.hidden = true;
     controlPanel.hidden = true;
     progress.hidden = true;
+}
+
+function evaluateQuality() {
+    var notCooking = document.getElementById('not-cooking');
+    var terrible = document.getElementById('terrible-quality');
+    var white = document.getElementById('white-quality');
+    var cloudy = document.getElementById('cloudy-quality');
+
+    if(!isCooking) {
+        notCooking.classList.remove('hide');
+        terrible.classList.add('hide');
+        white.classList.add('hide');
+        cloudy.classList.add('hide');
+        return;
+    }
+
+    var currentRatio = greenTime / elapsedCookTime;
+
+    if (elapsedCookTime < earliestWhiteTime || (elapsedCookTime < safeTime && currentRatio < whiteThreshold) || currentRatio < whiteThreshold && currentRatio > blowThreshold) {
+        currentState = 0;
+        notCooking.classList.add('hide');
+        terrible.classList.remove('hide');
+        white.classList.add('hide');
+        cloudy.classList.add('hide');
+        return;
+    }
+
+    if (elapsedCookTime >= earliestWhiteTime && currentRatio >= whiteThreshold && currentRatio < cloudyThreshold) {
+        currentState = 1;
+        notCooking.classList.add('hide');
+        terrible.classList.add('hide');
+        white.classList.remove('hide');
+        cloudy.classList.add('hide');
+        return;
+    }
+
+    if (elapsedCookTime >= earliestCloudyTime && currentRatio >= cloudyThreshold) {
+        currentState = 2;
+        notCooking.classList.add('hide');
+        terrible.classList.add('hide');
+        white.classList.add('hide');
+        cloudy.classList.remove('hide');
+        return;
+    }
+
+    if(elapsedCookTime >= safeTime && currentRatio <= blowThreshold) {
+        currentState = -1;
+        elapsedCookTime = 1000;
+    }
+}
+
+function printResult() {
+    var blow = document.getElementById('blow-panel');
+    var shitty = document.getElementById('shitty-result');
+    var white = document.getElementById('white-result');
+    var cloudy = document.getElementById('cloudy-result');
+
+    switch (currentState) {
+        case -1:
+            blow.hidden = false;
+            break;
+        case 0:
+            shitty.hidden = false;
+            break;
+        case 1:
+            white.hidden = false;
+            break;
+        case 2:
+            cloudy.hidden = false;
+            break;
+    }
+
+    setTimeout(function() {
+        location.reload();
+    }, 5000);
 }

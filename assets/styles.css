@@ -33,6 +33,12 @@ p {
     left: 1em;
 }
 
+.blackout-area.bottom-left {
+    position: fixed;
+    bottom: 1em;
+    left: 1em;
+}
+
 .blackout-container {
     position: fixed;
     bottom: 1em;
@@ -75,6 +81,15 @@ p {
     color: #0fbe0f;
 }
 
+.blue-text {
+    color: #4f86ad;
+}
+
+
+.red-text {
+    color: #980a20;
+}
+
 .symbol-key {
     font-family: 'Chalet', sans-serif;
     display: inline-block;
@@ -111,6 +126,14 @@ p {
     padding-bottom: 1em;
 }
 
+.result-text {
+    font-family: 'Chalet', sans-serif;
+    position: fixed;
+    bottom: 2em;
+    right: 1em;
+    font-size: 1.3em;
+}
+
 .table-cell {
     min-width: 7em;
     padding: 0.1em;
@@ -133,4 +156,8 @@ p {
     height: 100%;
     background-color: #c22faf;
     width: 0.0em;
+}
+
+.hide {
+    display: none;
 }
