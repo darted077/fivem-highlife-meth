@@ -106,15 +106,15 @@ function changePercentage(change) {
 }
 
 function addLithium() {
-    currentLithium = Math.min(currentLithium + 1, 5);
+    currentLithium = Math.min(currentLithium + 1, 10);
 }
 
 function addAcetone() {
-    currentAcetone = Math.min(currentAcetone + 1, 4);
+    currentAcetone = Math.min(currentAcetone + 1, 10);
 }
 
 function addSulfuric() {
-    currentSulfuric = Math.min(currentSulfuric + 1, 6);
+    currentSulfuric = Math.min(currentSulfuric + 1, 10);
 }
 
 function evaluateIsCooking() {
